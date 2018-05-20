@@ -9,10 +9,8 @@ const {ObjectID} = require('mongodb');
 
 let mongoose = require('./db/mongoose');
 let { Stock } = require('./models/stock');
+const sendsms = require('./sendsms');
 let app = express();
-
-
-
 
 const key = process.env.STOCK_KEY;
 
@@ -21,24 +19,57 @@ app.use(bodyParser.json());
 app.get('/notify/:stock', (req, res) => {
     let { stock } = req.params;
     let url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${stock}&interval=1min&apikey=${key}`;
-    axios.get(url).then((response) => {
-        let date = moment().format('YYYY-MM-DD HH:mm:ss');
-        let dateTesting = '2018-05-18 16:00:00';
-        date = dateTesting;
-        if (response.data['Error Message']) {
-            throw new Error('Unable to find information regarding the stock');
+    Stock.find({}, (err, stocks) => {
+        if (!err){
+            return stocks;
+        } else {
+            throw err;
         }
-        let val = response.data['Time Series (1min)'][date];
-        if (!val) {
-            return console.log('Stock market is currently closed');
+    }).then((allStocks) => {
+        console.log('Outputting all stocks', allStocks);
+        for (let i = 0; i < allStocks.length; i++) {
+            console.log('Stock Name', allStocks[i]['_id']);
+            console.log('Target Price', allStocks[i]['targetPrice']);
+            console.log('\n');
         }
-        let highestVal = response.data['Time Series (1min)'][dateTesting]['2. high'];
-        console.log(stock + ' ' + highestVal);
-        res.send({stock, highestVal});
-        return highestVal;
-    }).catch((e) => {
-        console.log(e.message);
-        return res.status(404).send(e);
+        axios.get(url).then((response) => {
+            let date = moment().format('YYYY-MM-DD HH:mm:ss');
+            let dateTesting = '2018-05-18 16:00:00';
+            date = dateTesting;
+            if (response.data['Error Message']) {
+                throw new Error('Unable to find information regarding the stock');
+            }
+            let val = response.data['Time Series (1min)'][date];
+            if (!val) {
+                return console.log('Stock market is currently closed');
+            }
+            let highestVal = response.data['Time Series (1min)'][dateTesting]['2. high'];
+            console.log(stock + ' ' + highestVal + ' ' + allStocks[2]['targetPrice']) ;
+            if (highestVal > allStocks[2]['targetPrice']) {
+                console.log('here');
+                let output = `The target price, ${allStocks[2]['_id']}, has been reached, and the current price is ${highestVal}`;
+                console.log(output);
+                sendsms.sendMessage(output);
+            }
+            res.send({stock, highestVal});
+            return highestVal;
+        }).catch((e) => {
+            console.log(e.message);
+            return res.status(404).send(e);
+        });
+    });
+});
+
+app.get('/stop/:stock', (req, res) => {
+    clearInterval(repeat);
+});
+
+app.get('/all', (req, res) => {
+    Stock.find({}, function(err, stocks) {
+        if (!err){
+            console.log(stocks);
+            res.send(stocks);
+        } else {throw err;}
     });
 });
 
@@ -47,6 +78,7 @@ app.get('/:stock', (req, res) => {
     Stock.find({_id: stock}).then((entry) => {
         console.log(JSON.stringify(entry, undefined, 2));
         res.send(entry);
+        return entry;
     }, (err) => {
         if (err) {
              console.log('Unable to find ', err);
@@ -72,11 +104,13 @@ app.post('/', (req, res) => {
             console.log('Stock market is currently closed');
         } else {
             let highestVal = response.data['Time Series (1min)'][dateTesting]['2. high'];
-            console.log('The high value of today for' + req.body.name + ' is $' + highestVal);
+            let output = 'The high value of today for ' + req.body.name + ' is $' + highestVal + '. We will notify you when the stock reaches $' + req.body.targetPrice + '.';
             if (highestVal >= req.body.targetPrice) {
                 // return res.status(404).send('The target price has already been reached. Please try a new inserting a new target value');
                 throw new Error('The target price has already been reached. Please try a new inserting a new target value');
             }
+            console.log(output);
+            sendsms.sendMessage(output);
         }
     }).then(() => {
         stock.save().then((docs) => {
