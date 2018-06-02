@@ -1,32 +1,71 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import StockList from './containers/StockList';
+import Particles from 'react-particles-js';
+
 import './App.css';
 import { StockData } from './StockData';
 
+const particlesOptions = {
+    particles: {
+        number: {
+            value: 80,
+            density: {
+                enable: true,
+                value_area:800
+            }
+        }
+    }
+};
 
 export default class App extends Component {
   constructor() {
     super();
     this.state = {
         sample: [{
-            name: 'APP',
+            stockName: 'APPL',
+            target: 100,
+            price: 20
+        }, {
+            stockName: 'APPL',
             target: 100,
             price: 20
         }]
     }
   }
+  handleSubmit(event) {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    console.log(data);
+  }
   render() {
     return (
       <div className="App">
-        <h1 id="title"> Stock Tracker and Notification System</h1>
-        <form className="searching">
-          <input type="text" id="search" placeholder="Stock Name"></input>
-          <input type="text" id="search" placeholder="Target Price"></input>
-          <input type="submit" id="searchButton"></input>
-        </form>
+        <Particles className="particles"
+          params={particlesOptions}
+        />
         <div>
-          <StockList sample = {this.state.sample} />
+          <h1 id="title"> Stock Tracker and Notification System</h1>
+          <form
+            onSubmit={this.handleSubmit}
+            id="searching">
+            <input
+              name="stockName"
+              type="text"
+              id="stockName"
+              placeHolder="Stock Symbol"
+            />
+            <input
+              name="targetPrice"
+              type="text"
+              id="targetPrice"
+              placeHolder="Target Price"
+            />
+            <button id="searchButton">Save</button>
+          </form>
+          <br/>
+          <StockList
+            sample={this.state.sample}
+            id="stockList"/>
         </div>
       </div>
     );

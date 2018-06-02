@@ -1,49 +1,44 @@
+.particles {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  color: white;
+}
+
 .App {
   text-align: center;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-
+  background-size: cover;
+  background-color: rgb(198, 198, 209, 0.5);
+  height: 100vh;
+  padding-top: 20px;
+  width: 100%;
 }
 
 #searchButton {
     padding: 12px 30px;
     margin: 20px;
-    border-radius: 8px;}
+    border-radius: 8px;
+}
 
-#stockSearch {
-    display: flex;
+#searching {
     align-items: center;
     flex-direction: column;
-}
-.searching {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    width: 75%;
+    background-color: rgb(7, 7, 242, 0.7);
+    box-shadow: black;
+    margin-left: 25%;
+    margin-right: 25%;
+    box-shadow: 3px 3px;
 }
 
-#search {
-    width: 100%;
+#targetPrice, #stockName {
+    width: 30%;
     padding: 10px;
-    font-size: 15px;
+    margin: 10px;
 }
 
-table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
-}
-
-.rowStocks:hover {
-    background-color: #C0C0C0;
-}
-
-tr {
-    padding: 20px;
-}
-
-#mainTable {
-    width: 75%;
-    margin: 20px;
-    height: 100%;
+#stockList {
+  display:inline-block;
 }

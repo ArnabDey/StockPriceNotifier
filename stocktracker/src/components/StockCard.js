@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 
+import './StockCard.css';
+
 const StockCard = ({ name, price, target }) => {
         return(
             <div className="stockCard">
-                <div>
-                    <h2>{name}</h2>
-                    <p> Current Price: </p>
-                    <p> {price}</p>
-                    <p> Target Price: </p>
-                    <p> {target}</p>
-                </div>
+                <h2>{name}</h2>
+                <p> Current Price: </p>
+                <p> ${price}</p>
+                <p> Target Price: </p>
+                <p> ${target}</p>
             </div>
         );
     }

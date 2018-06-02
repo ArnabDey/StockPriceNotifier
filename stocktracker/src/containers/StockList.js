@@ -1,23 +1,29 @@
 import React, { Component } from 'react';
 import StockCard from '../components/StockCard';
 
+export default class StockList extends Component {
+    constructor(props) {
+        super(props);
+    }
 
-const StockList = ({ sample }) => {
+    render() {
     return(
         <div>
         {
-            sample.map((activity, i) => {
+            (this.props.sample).map((activity, i) => {
                 return(
-                    <StockCard
-                        name={sample[i].name}
-                        target={sample[i].target}
-                        price={sample[i].price}
-                    />
+                    <div>
+                        <StockCard
+                            name={this.props.sample[i].stockName}
+                            target={this.props.sample[i].target}
+                            price={this.props.sample[i].price}
+                        />
+                        <br/>
+                    </div>
                 );
             })
         }
         </div>
     );
+    }
 }
-
-export default StockList;
