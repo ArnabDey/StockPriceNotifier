@@ -14,8 +14,8 @@ export default class StockList extends Component {
                 return(
                     <div>
                         <StockCard
-                            name={this.props.data[i].stockName}
-                            target={this.props.data[i].target}
+                            name={this.props.data[i]._id}
+                            target={this.props.data[i].targetPrice}
                             price={this.props.data[i].price}
                         />
                         <br/>

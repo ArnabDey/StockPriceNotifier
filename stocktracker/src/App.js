@@ -6,18 +6,19 @@ import './App.css';
 import { StockData } from './StockData';
 
 export default class App extends Component {
+  componentDidMount() {
+    fetch('/all')
+      .then((res) => {
+        return res.json();
+      }).then((data) => {
+        console.log(data);
+          this.setState({ data: data });
+      });
+  }
   constructor() {
     super();
     this.state = {
-        data: [{
-            stockName: 'APPL',
-            target: 100,
-            price: 20
-        }, {
-            stockName: 'APPL',
-            target: 100,
-            price: 20
-        }],
+        data: [],
         stockName: '',
         targetPrice: ''
     }
