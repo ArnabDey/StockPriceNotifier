@@ -10,8 +10,7 @@
 
 .App {
   text-align: center;
-  background-size: cover;
-  background-color: rgb(198, 198, 209, 0.5);
+  background-size: absolute;
   height: 100vh;
   padding-top: 20px;
   width: 100%;

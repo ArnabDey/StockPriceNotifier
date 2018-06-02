@@ -5,23 +5,11 @@ import Particles from 'react-particles-js';
 import './App.css';
 import { StockData } from './StockData';
 
-const particlesOptions = {
-    particles: {
-        number: {
-            value: 80,
-            density: {
-                enable: true,
-                value_area:800
-            }
-        }
-    }
-};
-
 export default class App extends Component {
   constructor() {
     super();
     this.state = {
-        sample: [{
+        data: [{
             stockName: 'APPL',
             target: 100,
             price: 20
@@ -31,7 +19,7 @@ export default class App extends Component {
             price: 20
         }],
         stockName: '',
-        targetPrice: 0
+        targetPrice: ''
     }
   }
 
@@ -48,13 +36,18 @@ export default class App extends Component {
   handleSubmit(event) {
     event.preventDefault();
     console.log(this.state.stockName + " " + this.state.targetPrice);
+    let updateArray = this.state.data.concat({
+              stockName: this.state.stockName,
+              target: this.state.targetPrice,
+              price: 100});
+    this.setState({ data: updateArray });
+    this.setState({ stockName: '' });
+    this.setState({ targetPrice: '' })
+
   }
   render() {
     return (
       <div className="App">
-        <Particles className="particles"
-          params={particlesOptions}
-        />
         <div>
           <h1 id="title"> Stock Tracker and Notification System</h1>
           <form
@@ -65,6 +58,7 @@ export default class App extends Component {
               type="text"
               id="stockName"
               placeholder="Stock Symbol"
+              value={this.state.stockName}
               required
               onChange={this.stockNameChange.bind(this)}
             />
@@ -73,6 +67,7 @@ export default class App extends Component {
               type="text"
               id="targetPrice"
               placeholder="Target Price"
+              value={this.state.targetPrice}
               required
               onChange={this.stockPriceChange.bind(this)}
             />
@@ -80,7 +75,7 @@ export default class App extends Component {
           </form>
           <br/>
           <StockList
-            sample={this.state.sample}
+            data={this.state.data}
             id="stockList"/>
         </div>
       </div>

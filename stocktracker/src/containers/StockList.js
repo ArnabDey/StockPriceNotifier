@@ -10,13 +10,13 @@ export default class StockList extends Component {
     return(
         <div>
         {
-            (this.props.sample).map((activity, i) => {
+            (this.props.data).map((activity, i) => {
                 return(
                     <div>
                         <StockCard
-                            name={this.props.sample[i].stockName}
-                            target={this.props.sample[i].target}
-                            price={this.props.sample[i].price}
+                            name={this.props.data[i].stockName}
+                            target={this.props.data[i].target}
+                            price={this.props.data[i].price}
                         />
                         <br/>
                     </div>
