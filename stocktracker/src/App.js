@@ -29,13 +29,25 @@ export default class App extends Component {
             stockName: 'APPL',
             target: 100,
             price: 20
-        }]
+        }],
+        stockName: '',
+        targetPrice: 0
     }
   }
+
+  stockNameChange(event) {
+    this.setState({stockName: event.target.value});
+    console.log(this.state.stockName);
+  }
+
+  stockPriceChange(event) {
+    this.setState({targetPrice: event.target.value});
+    console.log(this.state.targetPrice);
+  }
+
   handleSubmit(event) {
     event.preventDefault();
-    const data = new FormData(event.target);
-    console.log(data);
+    console.log(this.state.stockName + " " + this.state.targetPrice);
   }
   render() {
     return (
@@ -46,19 +58,23 @@ export default class App extends Component {
         <div>
           <h1 id="title"> Stock Tracker and Notification System</h1>
           <form
-            onSubmit={this.handleSubmit}
+            onSubmit={this.handleSubmit.bind(this)}
             id="searching">
             <input
               name="stockName"
               type="text"
               id="stockName"
-              placeHolder="Stock Symbol"
+              placeholder="Stock Symbol"
+              required
+              onChange={this.stockNameChange.bind(this)}
             />
             <input
               name="targetPrice"
               type="text"
               id="targetPrice"
-              placeHolder="Target Price"
+              placeholder="Target Price"
+              required
+              onChange={this.stockPriceChange.bind(this)}
             />
             <button id="searchButton">Save</button>
           </form>
