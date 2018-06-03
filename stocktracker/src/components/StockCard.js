@@ -8,6 +8,7 @@ class StockCard extends Component {
         this.loadData().then((val) => {
           console.log(val);
           this.setState({ currPrice: val });
+          window.location.reload(true);
       });
     }
   }

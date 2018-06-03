@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import StockCard from '../components/StockCard';
 
 export default class StockList extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return(
             <div>

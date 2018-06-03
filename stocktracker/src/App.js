@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import StockList from './containers/StockList';
 
 import './App.css';
-import { StockData } from './StockData';
 
 export default class App extends Component {
   componentDidMount() {
@@ -34,7 +33,6 @@ export default class App extends Component {
   }
 
   handleSubmit(event) {
-    event.preventDefault();
     console.log(this.state.stockName + " " + this.state.targetPrice);
     let updateArray = this.state.data.concat({
               stockName: this.state.stockName,
@@ -53,8 +51,13 @@ export default class App extends Component {
         name: `${this.state.stockName}`,
         targetPrice: `${this.state.targetPrice}`
       })
-    })
-
+    }).then((res) => {
+      let updateData = this.state.data.concat({
+        stockName: this.state.stockName,
+        target: this.state.targetPrice
+      });
+      this.setState({ data: updateData });
+    });
   }
   render() {
     return (
@@ -82,6 +85,9 @@ export default class App extends Component {
               required
               onChange={this.stockPriceChange.bind(this)}
             />
+            <a href="javascript:alert('If there is no update on the list, try
+            refreshing and ensure that the name of the stock is not already on
+            the list')" id="moreInfo">More Info</a>
             <button id="searchButton">Save</button>
           </form>
           <br/>

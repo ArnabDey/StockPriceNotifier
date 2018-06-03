@@ -28,9 +28,9 @@ app.get('/notify/:stock', (req, res) => {
     }).then((allStocks) => {
         console.log('Outputting all stocks', allStocks);
         for (let i = 0; i < allStocks.length; i++) {
-            console.log('Stock Name', allStocks[i]['_id']);
-            console.log('Target Price', allStocks[i]['targetPrice']);
-            console.log('\n');
+            // console.log('Stock Name', allStocks[i]['_id']);
+            // console.log('Target Price', allStocks[i]['targetPrice']);
+            // console.log('\n');
         }
         axios.get(url).then((response) => {
             let date = moment().format('YYYY-MM-DD HH:mm:ss');
@@ -40,7 +40,6 @@ app.get('/notify/:stock', (req, res) => {
                 throw new Error('Unable to find information regarding the stock');
             }
             let val = response.data['Time Series (1min)'][date];
-            console.log(response.data['Time Series (1min)']);
             if (!val) {
                 return console.log('Stock market is currently closed');
             }
@@ -117,9 +116,11 @@ app.post('/', (req, res) => {
         stock.save().then((docs) => {
             res.send(docs);
         }, (e) => {
-            throw new Error(e);
+            console.log('here 2', e)
+            return res.status(404).send(e);
         })
     }).catch((e) => {
+        alert(e);
         console.log('Here', e);
         return res.status(404).send(e);
     });

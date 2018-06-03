@@ -24,11 +24,15 @@
 }
 
 #targetPrice, #stockName {
-    width: 30%;
+    width: 28%;
     padding: 10px;
     margin: 10px;
 }
 
 #stockList {
   display:inline-block;
+}
+
+#moreInfo {
+  color: white;
 }
