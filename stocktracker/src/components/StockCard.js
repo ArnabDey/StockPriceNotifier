@@ -26,6 +26,7 @@ class StockCard extends Component {
     fetch(`/${name}`, {
       method: 'DELETE',
     });
+    window.location.reload(true);
   }
 
   render() {

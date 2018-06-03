@@ -10,7 +10,7 @@ export default class App extends Component {
         return res.json();
       }).then((data) => {
         console.log(data);
-          this.setState({ data: data });
+        this.setState({ data: data });
       });
   }
   constructor() {
@@ -29,7 +29,6 @@ export default class App extends Component {
 
   stockPriceChange(event) {
     this.setState({targetPrice: event.target.value});
-    // console.log(this.state.targetPrice);
   }
 
   handleSubmit(event) {
@@ -51,7 +50,9 @@ export default class App extends Component {
         name: `${this.state.stockName}`,
         targetPrice: `${this.state.targetPrice}`
       })
-    })
+    }).then((res) => {
+          window.location.reload(true);
+    });
   }
   render() {
     return (

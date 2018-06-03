@@ -19,14 +19,19 @@ app.use(bodyParser.json());
 app.get('/notify/:stock', (req, res) => {
     console.log('notify');
     let { stock } = req.params;
+    console.log(stock);
     let url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${stock}&interval=1min&apikey=${key}`;
-    Stock.find({}, (err, stocks) => {
+    Stock.find({_id: stock}, (err, stocks) => {
         if (!err){
-            return stocks;
+            let valPrice = stocks[0].targetPrice;
+            console.log(valPrice);
+            return valPrice;
         } else {
             throw err;
         }
-    }).then((allStocks) => {
+    }).then((stocks) => {
+        let targetPrice = stocks[0].targetPrice;
+        console.log('targetPrice', targetPrice);
         axios.get(url).then((response) => {
             let date = moment().format('YYYY-MM-DD HH:mm:ss');
             let dateTesting = '2018-06-01 15:12:00';
@@ -39,10 +44,10 @@ app.get('/notify/:stock', (req, res) => {
                 return console.log('Stock market is currently closed');
             }
             let highestVal = response.data['Time Series (1min)'][dateTesting]['2. high'];
-            console.log(stock + ' ' + highestVal + ' ' + allStocks[0]['targetPrice']) ;
-            if (highestVal > allStocks[0]['targetPrice']) {
+            console.log(stock + ' ' + highestVal + ' ' + targetPrice) ;
+            if (highestVal > targetPrice) {
                 console.log('here');
-                let output = `The target price, ${allStocks[2]['_id']}, has been reached, and the current price is ${highestVal}`;
+                let output = `The target price, ${targetPrice}, has been reached, and the current price is ${highestVal}`;
                 console.log(output);
                 sendsms.sendMessage(output);
             }
