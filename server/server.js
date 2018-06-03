@@ -34,12 +34,13 @@ app.get('/notify/:stock', (req, res) => {
         }
         axios.get(url).then((response) => {
             let date = moment().format('YYYY-MM-DD HH:mm:ss');
-            let dateTesting = '2018-06-01 13:00:00';
+            let dateTesting = '2018-06-01 15:12:00';
             date = dateTesting; // DELETE ONLY FOR TESTING PURPOSES
             if (response.data['Error Message']) {
                 throw new Error('Unable to find information regarding the stock');
             }
             let val = response.data['Time Series (1min)'][date];
+            console.log(response.data['Time Series (1min)']);
             if (!val) {
                 return console.log('Stock market is currently closed');
             }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import StockList from './containers/StockList';
-import Particles from 'react-particles-js';
 
 import './App.css';
 import { StockData } from './StockData';
@@ -44,6 +43,17 @@ export default class App extends Component {
     this.setState({ data: updateArray });
     this.setState({ stockName: '' });
     this.setState({ targetPrice: '' })
+    fetch('/', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: `${this.state.stockName}`,
+        targetPrice: `${this.state.targetPrice}`
+      })
+    })
 
   }
   render() {
