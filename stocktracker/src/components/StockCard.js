@@ -8,8 +8,12 @@ class StockCard extends Component {
         .then((res) => {
           return res.json();
         }).then((data) => {
-            this.setState({ currPrice: data.highestVal });
+          console.log(data);
+          let currPrice = `$${data.highestVal}`
+          this.setState({ currPrice: currPrice });
           return data.highestVal;
+        }).catch((e) => {
+          this.setState({ currPrice: "The stock market is closed currently" });
         });
     }
 
@@ -39,7 +43,7 @@ class StockCard extends Component {
                 <p> Target Price: </p>
                 <p> ${targetPrice}</p>
                 <p> Current Price: </p>
-                <p> ${this.state.currPrice}</p>
+                <p> {this.state.currPrice}</p>
                 <button id="delete"
                   onClick={this.delete.bind(this, name)}> Delete </button>
                 <br/>
