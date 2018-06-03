@@ -39,8 +39,8 @@ app.get('/notify/:stock', (req, res) => {
                 return console.log('Stock market is currently closed');
             }
             let highestVal = response.data['Time Series (1min)'][dateTesting]['2. high'];
-            console.log(stock + ' ' + highestVal + ' ' + allStocks[2]['targetPrice']) ;
-            if (highestVal > allStocks[2]['targetPrice']) {
+            console.log(stock + ' ' + highestVal + ' ' + allStocks[0]['targetPrice']) ;
+            if (highestVal > allStocks[0]['targetPrice']) {
                 console.log('here');
                 let output = `The target price, ${allStocks[2]['_id']}, has been reached, and the current price is ${highestVal}`;
                 console.log(output);
@@ -121,7 +121,9 @@ app.post('/', (req, res) => {
 
 app.delete('/:stock', (req, res) => {
     let { stock } = req.params;
-    Stock.findOneAndDelete(stock).then((stockDelete) => {
+    console.log(stock);
+    Stock.remove({_id: stock}).then((stockDelete) => {
+        console.log(stockDelete);
         if (!stockDelete) {
             return res.status(404).send();
         }

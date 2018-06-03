@@ -17,7 +17,6 @@ class StockCard extends Component {
         .then((res) => {
           return res.json();
         }).then((data) => {
-          console.log(data.higestVal);
           return data.higestVal;
         });
   }
@@ -29,23 +28,24 @@ class StockCard extends Component {
     }
   }
 
-  deleteStock() {
-    console.log('Delete');
+  delete(name) {
+    console.log('Delete', name);
+    fetch(`/${name}`, {
+      method: 'DELETE',
+    });
   }
-  dosomething() {
-    console.log('here');
-  }
+
   render() {
     // console.log(this.state.currPrice);
+    let name = this.props.name;
+    let targetPrice = this.props.target;
     return(
             <div className="stockCard">
-                <h2>{this.props.name}</h2>
+                <h2>{name}</h2>
                 <p> Target Price: </p>
-                <p> ${this.props.target}</p>
-                <form onSubmit={this.deleteStock}>
-                  <button id="delete"
-                  onClick={this.dosomething()}> Delete </button>
-                </form>
+                <p> ${targetPrice}</p>
+                <button id="delete"
+                  onClick={this.delete.bind(this, name)}> Delete </button>
                 <br/>
                 <br/>
             </div>

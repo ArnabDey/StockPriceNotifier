@@ -24,12 +24,12 @@ export default class App extends Component {
 
   stockNameChange(event) {
     this.setState({stockName: event.target.value});
-    console.log(this.state.stockName);
+    // console.log(this.state.stockName);
   }
 
   stockPriceChange(event) {
     this.setState({targetPrice: event.target.value});
-    console.log(this.state.targetPrice);
+    // console.log(this.state.targetPrice);
   }
 
   handleSubmit(event) {
@@ -81,7 +81,8 @@ export default class App extends Component {
             />
             <a href="javascript:alert('If there is no update on the list, try
             refreshing and ensure that the name of the stock is not already on
-            the list')" id="moreInfo">More Info</a>
+            the list. The page reloads every 30 seconds to provide constant
+            updates/ text notifcations.')" id="moreInfo">More Info</a>
             <button id="searchButton">Save</button>
           </form>
           <br/>
