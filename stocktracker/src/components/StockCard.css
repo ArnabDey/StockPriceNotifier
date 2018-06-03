@@ -11,3 +11,8 @@
     border-radius: 8px;
     background-color: rgb(255,255,224);
 }
+
+#currPrice {
+    color: blue;
+    text-decoration: none !important;
+}

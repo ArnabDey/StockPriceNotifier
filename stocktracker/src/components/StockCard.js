@@ -3,23 +3,15 @@ import React, { Component } from 'react';
 import './StockCard.css';
 
 class StockCard extends Component {
-  componentDidMount() {
-    if (this.loadData()) {
-        this.loadData().then((val) => {
-          console.log(val);
-          this.setState({ currPrice: val });
-      });
-    }
-  }
-
-  loadData() {
+  componentWillMount() {
       fetch(`/notify/${this.props.name}`)
         .then((res) => {
           return res.json();
         }).then((data) => {
-          return data.higestVal;
+            this.setState({ currPrice: data.highestVal });
+          return data.highestVal;
         });
-  }
+    }
 
   constructor(props) {
     super(props);
@@ -27,6 +19,7 @@ class StockCard extends Component {
         currPrice: ''
     }
   }
+
 
   delete(name) {
     console.log('Delete', name);
@@ -44,6 +37,8 @@ class StockCard extends Component {
                 <h2>{name}</h2>
                 <p> Target Price: </p>
                 <p> ${targetPrice}</p>
+                <p> Current Price: </p>
+                <p> ${this.state.currPrice}</p>
                 <button id="delete"
                   onClick={this.delete.bind(this, name)}> Delete </button>
                 <br/>
