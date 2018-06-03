@@ -17,6 +17,7 @@ const key = process.env.STOCK_KEY;
 app.use(bodyParser.json());
 
 app.get('/notify/:stock', (req, res) => {
+    console.log('notify');
     let { stock } = req.params;
     let url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${stock}&interval=1min&apikey=${key}`;
     Stock.find({}, (err, stocks) => {
@@ -26,12 +27,6 @@ app.get('/notify/:stock', (req, res) => {
             throw err;
         }
     }).then((allStocks) => {
-        console.log('Outputting all stocks', allStocks);
-        for (let i = 0; i < allStocks.length; i++) {
-            // console.log('Stock Name', allStocks[i]['_id']);
-            // console.log('Target Price', allStocks[i]['targetPrice']);
-            // console.log('\n');
-        }
         axios.get(url).then((response) => {
             let date = moment().format('YYYY-MM-DD HH:mm:ss');
             let dateTesting = '2018-06-01 15:12:00';
@@ -67,7 +62,7 @@ app.get('/stop/:stock', (req, res) => {
 app.get('/all', (req, res) => {
     Stock.find({}, function(err, stocks) {
         if (!err){
-            console.log(stocks);
+            // console.log(stocks);
             res.send(stocks);
         } else {throw err;}
     });
@@ -116,12 +111,10 @@ app.post('/', (req, res) => {
         stock.save().then((docs) => {
             res.send(docs);
         }, (e) => {
-            console.log('here 2', e)
             return res.status(404).send(e);
         })
     }).catch((e) => {
         alert(e);
-        console.log('Here', e);
         return res.status(404).send(e);
     });
 });

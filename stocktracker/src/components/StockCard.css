@@ -5,3 +5,9 @@
     margin-right: 25%;
     padding: 5px;
 }
+
+#delete {
+    padding: 5px;
+    border-radius: 8px;
+    background-color: rgb(255,255,224);
+}

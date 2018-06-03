@@ -51,13 +51,7 @@ export default class App extends Component {
         name: `${this.state.stockName}`,
         targetPrice: `${this.state.targetPrice}`
       })
-    }).then((res) => {
-      let updateData = this.state.data.concat({
-        stockName: this.state.stockName,
-        target: this.state.targetPrice
-      });
-      this.setState({ data: updateData });
-    });
+    })
   }
   render() {
     return (

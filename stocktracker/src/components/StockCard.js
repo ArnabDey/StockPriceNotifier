@@ -8,7 +8,6 @@ class StockCard extends Component {
         this.loadData().then((val) => {
           console.log(val);
           this.setState({ currPrice: val });
-          window.location.reload(true);
       });
     }
   }
@@ -18,6 +17,7 @@ class StockCard extends Component {
         .then((res) => {
           return res.json();
         }).then((data) => {
+          console.log(data.higestVal);
           return data.higestVal;
         });
   }
@@ -29,15 +29,25 @@ class StockCard extends Component {
     }
   }
 
+  deleteStock() {
+    console.log('Delete');
+  }
+  dosomething() {
+    console.log('here');
+  }
   render() {
-    console.log(this.state.currPrice);
+    // console.log(this.state.currPrice);
     return(
             <div className="stockCard">
                 <h2>{this.props.name}</h2>
-                <p> Current Price: </p>
-                <p>>{this.state.currPrice}</p>
                 <p> Target Price: </p>
                 <p> ${this.props.target}</p>
+                <form onSubmit={this.deleteStock}>
+                  <button id="delete"
+                  onClick={this.dosomething()}> Delete </button>
+                </form>
+                <br/>
+                <br/>
             </div>
       );
   }
